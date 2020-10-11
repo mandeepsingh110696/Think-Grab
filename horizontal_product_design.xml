@@ -3,7 +3,7 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="wrap_content"
-android:layout_height="match_parent"
+android:layout_height="wrap_content"
 android:layout_margin="4dp"
 android:background="@drawable/slider_background"
 android:elevation="3dp">
@@ -36,24 +36,23 @@ android:elevation="3dp">
     android:textSize="12sp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/hs_product_image" />
+    app:layout_constraintTop_toBottomOf="@+id/product_picture" />
 
 <TextView
     android:id="@+id/product_desc"
     android:layout_width="0dp"
-    android:layout_height="20dp"
+    android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     android:text="SD 425 Processor"
     android:textAlignment="center"
-    android:textColor="@color/green"
     android:textSize="10sp"
-    app:layout_constraintBottom_toTopOf="@+id/hs_product_price"
+    app:layout_constraintBottom_toTopOf="@+id/product_price"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/hs_product_name" />
+    app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
 <TextView
     android:id="@+id/product_price"
