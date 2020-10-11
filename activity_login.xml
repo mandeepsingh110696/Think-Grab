@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Email ID"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/pass_signin"
@@ -51,9 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@color/maintextcolor"
-            android:enabled="false"
             android:text="Login"
-            android:textColor="@color/colorwhite" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="match_parent"

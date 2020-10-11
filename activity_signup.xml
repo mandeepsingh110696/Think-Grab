@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/email_signup"
             android:hint="Email ID"
-            android:textColor="@color/colorwhite"
+            android:textColor="@color/white"
             android:layout_margin="16dp"
             />
         <EditText
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/name_signup"
             android:hint="Full Name"
-            android:textColor="@color/colorwhite"
+            android:textColor="@color/white"
             android:layout_margin="16dp"
             />
 
@@ -67,8 +67,7 @@
             android:id="@+id/btn_signup"
             android:background="@color/maintextcolor"
             android:text="Sign Up"
-            android:enabled="false"
-            android:textColor="@color/colorwhite"
+            android:textColor="@color/white"
             android:layout_margin="16dp"/>
 
         <TextView
