@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Navigation"
-    tools:showIn="@layout/app_bar_product_detail">
+    tools:showIn="@layout/app_bar_navigation">
 
 </android.support.constraint.ConstraintLayout>
