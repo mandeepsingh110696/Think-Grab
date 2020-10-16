@@ -5,12 +5,128 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 >
 
-<com.braintreepayments.cardform.view.CardForm
-    android:layout_marginTop="30dp"
-    android:id="@+id/card_form"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+<!--<com.braintreepayments.cardform.view.CardForm-->
+    <!--android:layout_marginTop="30dp"-->
+    <!--android:id="@+id/card_form"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content" />-->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/cardno"
+            android:layout_marginTop="86dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="Card Number"
+            android:inputType="number"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/expdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="160dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Expiration Date"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorPrimary" />
+        <EditText
+            android:id="@+id/cvv"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="160dp"
+            android:ems="10"
+            android:hint="CVV"
+            android:inputType="number"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/postalcode"
+        android:layout_marginTop="234dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Postal Code"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/countrycode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="304dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Country Code"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorPrimary" />
+        <EditText
+            android:id="@+id/mobileno"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="304dp"
+            android:ems="10"
+            android:hint="Mobile Number"
+            android:inputType="number"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:textStyle="bold"
+        android:hint="SMS is required on this number"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="16dp" />
 <Button
     android:id="@+id/checkout"
     android:layout_width="match_parent"
