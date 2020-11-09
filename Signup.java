@@ -52,9 +52,9 @@ public class Signup extends AppCompatActivity {
 
     }
     public  void sendSignupData(String email,String name,String pass,String conf_pass){
-        SignupModel signup = new SignupModel(email,name,pass,conf_pass);
+        SignupModel signupModel = new SignupModel(email,name,pass,conf_pass);
         firebaseFirestoredb.collection("Signup")
-                .add(signup)
+                .add(signupModel)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
