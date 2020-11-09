@@ -1,6 +1,7 @@
 package com.example.amaranathyatra.thinkgrab;
 
 public class SignupModel {
+	//sample structure for signup class
     String email, name, pass, conf_pass;
 
     public SignupModel(String email, String name, String pass, String conf_pass) {

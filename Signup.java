@@ -18,6 +18,7 @@ public class Signup extends AppCompatActivity {
 
     Button bt1;
     EditText email,name,pass,confpass;
+	//FirebaseFirestore instance 
     FirebaseFirestore firebaseFirestoredb;
 
 
