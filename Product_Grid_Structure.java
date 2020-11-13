@@ -1,6 +1,10 @@
 package com.example.amaranathyatra.thinkgrab;
 
-public class Product_Grid_Structure {
+import java.io.Serializable;
+
+//Product grid structure
+
+public class Product_Grid_Structure  implements Serializable {
 
 
     private  String prod_name;

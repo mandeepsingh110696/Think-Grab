@@ -1,10 +1,14 @@
 package com.example.amaranathyatra.thinkgrab;
 
-public class ProductStructure {
+import java.io.Serializable;
+//Product horizontal structure
+
+public class ProductStructure implements Serializable {
     private  String prod_name;
     private  String prod_desc;
     private  String prod_price;
     private  int prod_picture;
+
 
     public ProductStructure(String prod_name, String prod_desc, String prod_price, int prod_picture) {
         this.prod_name = prod_name;
