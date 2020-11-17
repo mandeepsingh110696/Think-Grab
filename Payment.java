@@ -2,6 +2,7 @@ package com.example.amaranathyatra.thinkgrab;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,19 +12,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.braintreepayments.cardform.view.CardForm;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Payment extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    CardForm cardForm;
+       //Payment Main Class
     Button checkout;
     AlertDialog.Builder alertBuilder;
+    EditText cardno,expdate,cvv,postalcode,countrycode,mobileno;
+    FirebaseFirestore firebaseFirestoredbbb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,58 +50,85 @@ public class Payment extends AppCompatActivity implements NavigationView.OnNavig
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-
-      //  cardForm = findViewById(R.id.card_form);
+        cardno=findViewById(R.id.cardno);
+        expdate=findViewById(R.id.expdate);
+        cvv=findViewById(R.id.cvv);
+        postalcode=findViewById(R.id.postalcode);
+        countrycode=findViewById(R.id.countrycode);
+        mobileno=findViewById(R.id.mobileno);
         checkout = findViewById(R.id.checkout);
-//        cardForm.cardRequired(true)
-//                .expirationRequired(true)
-//                .cvvRequired(true)
-//                .postalCodeRequired(true)
-//                .mobileNumberRequired(true)
-//                .mobileNumberExplanation("SMS is required on this number")
-//                .setup(Payment.this);
-//        cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-//        checkout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (cardForm.isValid()) {
-//                    alertBuilder = new AlertDialog.Builder(Payment.this);
-//                    alertBuilder.setTitle("Confirm before purchase");
-//                    alertBuilder.setMessage("Card number: " + cardForm.getCardNumber() + "\n" +
-//                            "Card expiry date: " + cardForm.getExpirationDateEditText().getText().toString() + "\n" +
-//                            "Card CVV: " + cardForm.getCvv() + "\n" +
-//                            "Postal code: " + cardForm.getPostalCode() + "\n" +
-//                            "Phone number: " + cardForm.getMobileNumber());
-//                    alertBuilder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//                            Toast.makeText(Payment.this, "Thank you for purchase", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                    alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            dialogInterface.dismiss();
-//                        }
-//                    });
-//                    AlertDialog alertDialog = alertBuilder.create();
-//                    alertDialog.show();
-//
-//                } else {
-//                    Toast.makeText(Payment.this, "Please complete the form", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
+
+        firebaseFirestoredbbb = FirebaseFirestore.getInstance();
+
+
+
+
 
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String cardnoo=cardno.getText().toString();
+                String expdatee=expdate.getText().toString();
+                String cvvv=cvv.getText().toString();
+                String postalcodee=postalcode.getText().toString();
+                String countrycodee=countrycode.getText().toString();
+                String mobilenoo=mobileno.getText().toString();
+                if(TextUtils.isEmpty(cardnoo)){
+                    cardno.setError("cardno is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(expdatee)){
+                    expdate.setError("expiration date is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(cvvv)){
+                    cvv.setError("cvv is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(postalcodee)){
+                    postalcode.setError("postalcode is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(countrycodee)){
+                    countrycode.setError("countrycode is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(mobilenoo)){
+                    mobileno.setError("mobileno is required");
+                    return;
+                }
+                sendPaymentData(cardnoo,expdatee,cvvv,postalcodee,countrycodee,mobilenoo);
+
                 Intent intent = new Intent(Payment.this,ThankYou.class);
                 startActivity(intent);
             }
         });
+
+
+
+    }
+
+    public  void sendPaymentData(String cardno,String expdate,String cvv,String postalcode,String countrycode,String mobileno){
+        PaymentModel paymentModel = new PaymentModel(cardno,expdate,cvv,postalcode,countrycode,mobileno);
+        firebaseFirestoredbbb.collection("PaymentInfo")
+                .add(paymentModel)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(),"Your Payment has been done Sucessfully",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),"You have encountered an error"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
+
     }
 
     @Override
