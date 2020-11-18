@@ -1,6 +1,7 @@
 package com.example.amaranathyatra.thinkgrab;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,15 +9,26 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Checkout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     Button save;
+    EditText city,locality,aptno,postalcode,province,landmark,name,mobile,alter_mobile;
+    FirebaseFirestore firebaseFirestoredeliveryadd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +46,88 @@ public class Checkout extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        city=findViewById(R.id.city);
+        locality=findViewById(R.id.locality);
+        aptno=findViewById(R.id.aptno);
+        postalcode=findViewById(R.id.postalcode);
+        province=findViewById(R.id.province);
+        landmark=findViewById(R.id.landmark);
+        name=findViewById(R.id.name);
+        mobile=findViewById(R.id.mobile);
+        alter_mobile=findViewById(R.id.alter_mobile);
         save= findViewById(R.id.save_btn);
+        firebaseFirestoredeliveryadd=FirebaseFirestore.getInstance();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String cityy=city.getText().toString();
+                String localityy=locality.getText().toString();
+                String aptnoo=aptno.getText().toString();
+                String postalcodee=postalcode.getText().toString();
+                String provincee=province.getText().toString();
+                String landmarkk=landmark.getText().toString();
+                String namee=name.getText().toString();
+                String mobilee=mobile.getText().toString();
+                String altermobile=alter_mobile.getText().toString();
+                if(TextUtils.isEmpty(cityy)){
+                    city.setError("City name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(localityy)){
+                    locality.setError("Locality name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(aptnoo)){
+                    aptno.setError("Aptno is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(postalcodee)){
+                    postalcode.setError("Postalcode is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(provincee)){
+                    province.setError("Province name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(namee)){
+                    name.setError("Name is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(mobilee)){
+                    mobile.setError("city name is required");
+                    return;
+                }
+                sendDeliveryAddressData(cityy,localityy,aptnoo,postalcodee,provincee,landmarkk,namee,mobilee,altermobile);
                 Intent intent = new Intent(Checkout.this,Payment.class);
                 startActivity(intent);
             }
         });
     }
+    public  void sendDeliveryAddressData(String  city,String locality,String aptno,String postalcode,String province,String landmark,String name,String mobile,String alter_mobile){
+        DeliveryAddressModel deliveryAddressModel = new DeliveryAddressModel( city,locality,aptno,postalcode,province,landmark,name,mobile,alter_mobile);
+        firebaseFirestoredeliveryadd.collection("DeliveryAddress")
+                .add(deliveryAddressModel)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(),"Your Delivery address has been saved Sucessfully",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),"You have encountered an error"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
+
+    }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
