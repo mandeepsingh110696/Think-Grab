@@ -74,7 +74,7 @@
                 android:textColor="@color/colorPrimary" />
 
             <EditText
-                android:id="@+id/flatno"
+                android:id="@+id/aptno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -95,7 +95,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pincode"
+                    android:id="@+id/postalcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -109,6 +109,7 @@
 
 
                 <EditText
+                    android:id="@+id/province"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -134,7 +135,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:hint="Landmark(optional)*"
+                android:hint="Landmark(optional)"
 
                 android:inputType="textPersonName"
                 android:textColor="@color/colorPrimary" />
@@ -176,7 +177,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:hint="Alternative mobile no(optional)*"
+                android:hint="Alternative mobile no(optional)"
                 android:inputType="number"
                 android:textColor="@color/colorPrimary" />
 
