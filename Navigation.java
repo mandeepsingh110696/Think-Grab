@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -34,6 +35,7 @@ public class Navigation extends AppCompatActivity
     private ProductAdapter productAdapter;
     private Product_Grid_Adapter grid_adapter;
     CarouselView carouselView;
+    FirebaseAuth firebaseAuth;
 
     int[] sampleImages = {R.drawable.banneerecomm1, R.drawable.banner2ecomm, R.drawable.banner3ecomm, R.drawable.nikebanner4, R.drawable.nikestrip2};
 
@@ -51,6 +53,7 @@ public class Navigation extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        firebaseAuth = FirebaseAuth.getInstance();
         navigationView.setNavigationItemSelectedListener(this);
         setView();
 
@@ -59,54 +62,54 @@ public class Navigation extends AppCompatActivity
 
     public void setView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        productAdapter = new ProductAdapter(products_list);
+        productAdapter = new ProductAdapter(products_list,this);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(productAdapter);
-        ProductStructure products = new ProductStructure("IPhone11Pro", "Animation, Kids & Family", "1900$", R.drawable.mobileiphone);
+        ProductStructure products = new ProductStructure("IPhone11Pro", "Memory, epic & clear", "1900$", R.drawable.mobileiphone);
         products_list.add(products);
-        products = new ProductStructure("BeautyGel", "Animation, Kids & Family", "200$", R.drawable.beautygel);
+        products = new ProductStructure("BeautyGel", "Beautiful, Kids & Family", "200$", R.drawable.beautygel);
         products_list.add(products);
-        products = new ProductStructure("Sofaset", "Animation, Kids & Family", "1000$", R.drawable.sofaprod);
+        products = new ProductStructure("Sofaset", "Comfortable, Home & Rest", "1000$", R.drawable.sofaprod);
         products_list.add(products);
-        products = new ProductStructure("Weights", "Animation, Kids & Family", "1040$", R.drawable.weightprod);
+        products = new ProductStructure("Weights", "Fitness, Hardwork & Discipline", "1040$", R.drawable.weightprod);
         products_list.add(products);
-        products = new ProductStructure("Earphone", "Animation, Kids & Family", "200$", R.drawable.earphone);
+        products = new ProductStructure("Earphone", "Inspiration, Enjoy & Mood", "200$", R.drawable.earphone);
         products_list.add(products);
-        products = new ProductStructure("Book", "Animation, Kids & Family", "100$", R.drawable.bookprod);
+        products = new ProductStructure("Book", "Reading, Creativity & Thinking", "100$", R.drawable.bookprod);
         products_list.add(products);
         productAdapter.notifyDataSetChanged();
 
 
         RecyclerView recyclerViewgrid = findViewById(R.id.recyclerViewGrid);
-        grid_adapter = new Product_Grid_Adapter(grid_products_list);
+        grid_adapter = new Product_Grid_Adapter(grid_products_list,this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerViewgrid.setLayoutManager(gridLayoutManager);
         recyclerViewgrid.setItemAnimator(new DefaultItemAnimator());
         recyclerViewgrid.setAdapter(grid_adapter);
-        Product_Grid_Structure grid_products = new Product_Grid_Structure("Sofaset", "Animation, Kids & Family", "1900$", R.drawable.sofaprod);
+        Product_Grid_Structure grid_products = new Product_Grid_Structure("Sofaset", "Comfortable, Home & Rest", "1900$", R.drawable.sofaprod);
         grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Book", "Animation, Kids & Family", "200$", R.drawable.bookprod);
-        grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("BeautyGel", "Animation, Kids & Family", "600$", R.drawable.beautygel);
-        grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Weights", "Animation, Kids & Family", "800$", R.drawable.weightprod);
-        grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Mobile", "Animation, Kids & Family", "170$", R.drawable.mobileiphone);
-        grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Earphone", "Animation, Kids & Family", "100$", R.drawable.earphone);
-        grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Book", "Animation, Kids & Family", "200$", R.drawable.bookprod);
+        grid_products = new Product_Grid_Structure("Book", "Reading, Creativity & Thinking", "200$", R.drawable.bookprod);
         grid_products_list.add(grid_products);
         grid_products = new Product_Grid_Structure("BeautyGel", "Animation, Kids & Family", "600$", R.drawable.beautygel);
         grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Weights", "Animation, Kids & Family", "800$", R.drawable.weightprod);
+        grid_products = new Product_Grid_Structure("Weights", "Fitness, Hardwork & Discipline", "800$", R.drawable.weightprod);
         grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Mobile", "Animation, Kids & Family", "170$", R.drawable.mobileiphone);
+        grid_products = new Product_Grid_Structure("IPhone11Pro", "Memory, epic & clear", "1700$", R.drawable.mobileiphone);
         grid_products_list.add(grid_products);
-        grid_products = new Product_Grid_Structure("Earphone", "Animation, Kids & Family", "100$", R.drawable.earphone);
+        grid_products = new Product_Grid_Structure("Earphone", "Inspiration, Enjoy & Mood", "100$", R.drawable.earphone);
+        grid_products_list.add(grid_products);
+        grid_products = new Product_Grid_Structure("Book", "Reading, Creativity & Thinking", "200$", R.drawable.bookprod);
+        grid_products_list.add(grid_products);
+        grid_products = new Product_Grid_Structure("BeautyGel", "Animation, Kids & Family", "600$", R.drawable.beautygel);
+        grid_products_list.add(grid_products);
+        grid_products = new Product_Grid_Structure("Weights", "Fitness, Hardwork & Discipline", "800$", R.drawable.weightprod);
+        grid_products_list.add(grid_products);
+        grid_products = new Product_Grid_Structure("IPhone11Pro", "Memory, epic & clear", "1700$", R.drawable.mobileiphone);
+        grid_products_list.add(grid_products);
+        grid_products = new Product_Grid_Structure("Earphone", "Inspiration, Enjoy & Mood", "100$", R.drawable.earphone);
         grid_products_list.add(grid_products);
 
 
@@ -171,6 +174,10 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
+            FirebaseAuth.getInstance().signOut();
+            Intent in = new Intent(Navigation.this,Login.class);
+            startActivity(in);
+            finish();
 
         } else if (id == R.id.nav_share) {
 
