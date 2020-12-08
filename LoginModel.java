@@ -1,7 +1,14 @@
 package com.example.amaranathyatra.thinkgrab;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginModel {
-    String email_signin,pass_signin;
+
+
+    @SerializedName("email")
+    String email_signin;
+    @SerializedName("password")
+    String    pass_signin;
 
     public LoginModel(String email_signin, String pass_signin) {
         this.email_signin = email_signin;

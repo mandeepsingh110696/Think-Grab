@@ -1,8 +1,22 @@
 package com.example.amaranathyatra.thinkgrab;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SignupModel {
 	//sample structure for signup class
-    String email, name, pass, conf_pass;
+    @SerializedName("email")
+    String email;
+    @SerializedName("fullname")
+    String   name;
+    @SerializedName("password")
+    String     pass;
+    @SerializedName("confirmpassword")
+    String      conf_pass;
+
+
+
+
+
 
     public SignupModel(String email, String name, String pass, String conf_pass) {
         this.email = email;

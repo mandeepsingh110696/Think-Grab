@@ -12,6 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amaranathyatra.thinkgrab.network.Apiclient;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Loginnetworkapi;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Signupnetworkapi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +23,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 //login class
@@ -65,6 +74,7 @@ public class Login extends AppCompatActivity {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                submitLoginData();
                 firebaseAuth.signInWithEmailAndPassword(email_signinn,pass_signinn).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -91,6 +101,29 @@ public class Login extends AppCompatActivity {
                 startActivity(in);
             }
         });
+    }
+
+    public  void submitLoginData(){
+        LoginModel loginModel= new LoginModel(email_signin.getText().toString(),pass_signin.getText().toString());
+        Call<JSONObject> jsonObjectCall = new Apiclient().getRetrofit().create(Loginnetworkapi.class).signinapi(loginModel);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                Toast.makeText(getApplicationContext(), "You have been Logged in successfully", Toast.LENGTH_SHORT).show();
+                Intent in = new Intent(Login.this,Navigation.class);
+                startActivity(in);
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
     }
 
 //    public void sendLoginData(String emailsignin, String pass_signin) {

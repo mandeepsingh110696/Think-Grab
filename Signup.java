@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amaranathyatra.thinkgrab.network.Apiclient;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Signupnetworkapi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,9 +23,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 //signup updated
 public class Signup extends AppCompatActivity {
@@ -67,6 +76,7 @@ public class Signup extends AppCompatActivity {
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 final String emaaill=email.getText().toString();
                 String namee=name.getText().toString();
                 String passs=pass.getText().toString();
@@ -93,6 +103,7 @@ public class Signup extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
+                submitSignupData();
                 firebaseAuth.createUserWithEmailAndPassword(emaaill,passs).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -174,4 +185,32 @@ public class Signup extends AppCompatActivity {
 //                });
 //
 //    }
+
+
+
+    public  void submitSignupData(){
+         SignupModel signupModel = new SignupModel(email.getText().toString(),name.getText().toString(),pass.getText().toString(),confpass.getText().toString());
+        Call<JSONObject> jsonObjectCall = new  Apiclient().getRetrofit().create(Signupnetworkapi.class).insertSignupData(signupModel);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+
+                progressBar.setVisibility(View.GONE);
+                 Toast.makeText(getApplicationContext(), "You have been signup successfully", Toast.LENGTH_SHORT).show();
+                 Intent in = new Intent(Signup.this,Navigation.class);
+                 startActivity(in);
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                 Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
 }
