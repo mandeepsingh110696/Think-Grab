@@ -17,10 +17,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amaranathyatra.thinkgrab.network.Apiclient;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Productsgridnetworkapi;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Productshorizontalnetworkapi;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Signupnetworkapi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 //Product detail activity
@@ -82,20 +92,23 @@ public class Product_detailG extends AppCompatActivity implements NavigationView
             @Override
             public void onClick(View view) {
                 if(products!=null) {
-                    sendHorizontalProductData(products.getProd_name(), products.getProd_desc(), products.getProd_price(), products.getProd_picture());
+
+                    submitHorizontalProductData();
+                    sendHorizontalProductData(products.getProd_name(), products.getProd_desc(),products.getProd_picture(),products.getProd_price());
 
                 }
                 if(products_vertical!=null)
                 {
-                    sendVerticalProductData(products_vertical.getProd_name(), products_vertical.getProd_desc(), products_vertical.getProd_price(), products_vertical.getProd_picture());
+                    submitGridProductData();
+                    sendVerticalProductData(products_vertical.getProd_name(), products_vertical.getProd_desc(), products_vertical.getProd_picture(), products_vertical.getProd_price());
                 }
             }
         });
 
     }
 
-    public  void sendVerticalProductData(String prod_name,String prod_desc,String prod_price,int prod_picture){
-        Product_Grid_Structure product_grid_structure= new Product_Grid_Structure(prod_name,prod_desc,prod_price,prod_picture);
+    public  void sendVerticalProductData(String prod_name,String prod_desc,int prod_picture,String prod_price){
+        Product_Grid_Structure product_grid_structure= new Product_Grid_Structure(prod_name,prod_desc,prod_picture,prod_price);
         firebaseFirestoredbbb.collection("VerticalProduct")
                 .add(product_grid_structure)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -118,8 +131,8 @@ public class Product_detailG extends AppCompatActivity implements NavigationView
 
 
     }
-    public  void sendHorizontalProductData(String prod_name,String prod_desc,String prod_price,int prod_picture){
-        ProductStructure productStructure= new ProductStructure(prod_name,prod_desc,prod_price,prod_picture);
+    public  void sendHorizontalProductData(String prod_name,String prod_desc,int prod_picture,String prod_price){
+        ProductStructure productStructure= new ProductStructure(prod_name,prod_desc,prod_picture,prod_price);
         firebaseFirestoredbbb.collection("HorizontalProduct")
                 .add(productStructure)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -199,5 +212,59 @@ public class Product_detailG extends AppCompatActivity implements NavigationView
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public  void submitHorizontalProductData(){
+        ProductStructure horizontalproductStructure = new ProductStructure(products.getProd_name(),products.getProd_desc(),products.getProd_picture(),products.getProd_price());
+        Call<JSONObject> jsonObjectCall = new Apiclient().getRetrofit().create(Productshorizontalnetworkapi.class).insertProductsHorizontal(horizontalproductStructure);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                Toast.makeText(Product_detailG.this,"Your Product has been added Sucessfully",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Product_detailG.this,Checkout.class);
+                startActivity(intent);
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
+
+    public  void submitGridProductData(){
+        Product_Grid_Structure gridproductStructure = new Product_Grid_Structure(products_vertical.getProd_name(),products_vertical.getProd_desc(),products_vertical.getProd_picture(),products_vertical.getProd_price());
+        Call<JSONObject> jsonObjectCall = new Apiclient().getRetrofit().create(Productsgridnetworkapi.class).insertProductsGrid(gridproductStructure);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                Toast.makeText(Product_detailG.this,"Your Product has been added Sucessfully",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Product_detailG.this,Checkout.class);
+                startActivity(intent);
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
     }
 }
