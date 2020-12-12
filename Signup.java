@@ -42,7 +42,7 @@ public class Signup extends AppCompatActivity {
     Button bt1;
     EditText email,name,pass,confpass;
     ProgressBar progressBar;
-    TextView already_signupp,view;
+    TextView already_signupp;
 
 	//FirebaseFirestore instance 
     FirebaseFirestore firebaseFirestoredb;
@@ -60,7 +60,7 @@ public class Signup extends AppCompatActivity {
         confpass=findViewById(R.id.conf_pass_signup);
         progressBar=findViewById(R.id.progressBar);
         already_signupp= findViewById(R.id.already_signup);
-        view=findViewById(R.id.viewdata);
+
 
 
         firebaseFirestoredb=FirebaseFirestore.getInstance();
@@ -144,12 +144,7 @@ public class Signup extends AppCompatActivity {
                  startActivity(in);
              }
          });
-         view.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
 
-             }
-         });
 
     }
 //    public  void sendSignupData(final String email, String name, final String pass, String conf_pass){
@@ -240,7 +235,7 @@ public class Signup extends AppCompatActivity {
                         data += "pass:" + signupModel.getPass() + "\n";
                         data += "conf_pass:" + signupModel.getConf_pass() + "\n\n";
 
-                        view.append(data);
+
 
                     }
                 }
