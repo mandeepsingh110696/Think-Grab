@@ -210,7 +210,7 @@ public class Payment extends AppCompatActivity implements NavigationView.OnNavig
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_profile) {
 
         } else if (id == R.id.nav_tools) {
 

@@ -171,7 +171,9 @@ public class Navigation extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_profile) {
+            Intent intent = new Intent(getApplicationContext(),ProfileData.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_tools) {
             FirebaseAuth.getInstance().signOut();

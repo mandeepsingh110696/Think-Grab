@@ -232,16 +232,17 @@ public class Signup extends AppCompatActivity {
             public void onResponse(Call<List<SignupModel>> call, Response<List<SignupModel>> response) {
                 progressBar.setVisibility(View.GONE);
                 List<SignupModel> modelList =response.body();
-                for(SignupModel signupModel:modelList)
-                {
-                    String data="";
-                    data+="email:"+signupModel.getEmail()+"\n";
-                    data+="name:"+signupModel.getName()+"\n";
-                    data+="pass:"+signupModel.getPass()+"\n";
-                    data+="conf_pass:"+signupModel.getConf_pass()+"\n\n";
+                if(modelList!=null && !modelList.isEmpty()) {
+                    for (SignupModel signupModel : modelList) {
+                        String data = "";
+                        data += "email:" + signupModel.getEmail() + "\n";
+                        data += "name:" + signupModel.getName() + "\n";
+                        data += "pass:" + signupModel.getPass() + "\n";
+                        data += "conf_pass:" + signupModel.getConf_pass() + "\n\n";
 
-                    view.append(data);
+                        view.append(data);
 
+                    }
                 }
                 //Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
