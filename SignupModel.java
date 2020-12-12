@@ -56,4 +56,14 @@ public class SignupModel {
     public void setConf_pass(String conf_pass) {
         this.conf_pass = conf_pass;
     }
+
+    @Override
+    public String toString() {
+        return "SignupModel{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", pass='" + pass + '\'' +
+                ", conf_pass='" + conf_pass + '\'' +
+                '}';
+    }
 }

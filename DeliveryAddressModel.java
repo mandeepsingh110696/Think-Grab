@@ -1,7 +1,22 @@
 package com.example.amaranathyatra.thinkgrab;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DeliveryAddressModel {
-    String  city,locality,aptno,postalcode,province,landmark,name,mobile,alter_mobile;
+    String  city;
+    @SerializedName("street")
+    String       locality;
+    String        aptno;
+    String        postalcode;
+    String        province;
+    String        landmark;
+    String name;
+    @SerializedName("mobileno")
+    String        mobile;
+    @SerializedName("alterno")
+    String      alter_mobile;
+
+
 
     public DeliveryAddressModel(String city, String locality, String aptno, String postalcode, String province, String landmark, String name, String mobile, String alter_mobile) {
         this.city = city;
@@ -11,9 +26,12 @@ public class DeliveryAddressModel {
         this.province = province;
         this.landmark = landmark;
         this.name = name;
+
         this.mobile = mobile;
         this.alter_mobile = alter_mobile;
     }
+
+
 
     public String getCity() {
         return city;

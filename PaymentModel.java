@@ -14,6 +14,8 @@ public class PaymentModel {
         this.mobileno = mobileno;
     }
 
+
+
     public String getCardno() {
         return cardno;
     }

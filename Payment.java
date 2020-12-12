@@ -21,10 +21,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.braintreepayments.cardform.view.CardForm;
+import com.example.amaranathyatra.thinkgrab.network.Apiclient;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Paymentinfonetworkapi;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Signupnetworkapi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Payment extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -97,6 +106,7 @@ public class Payment extends AppCompatActivity implements NavigationView.OnNavig
                     mobileno.setError("mobileno is required");
                     return;
                 }
+                submitPaymentData();
                 sendPaymentData(cardnoo,expdatee,cvvv,postalcodee,countrycodee,mobilenoo);
 
                 Intent intent = new Intent(Payment.this,ThankYou.class);
@@ -131,6 +141,33 @@ public class Payment extends AppCompatActivity implements NavigationView.OnNavig
 
     }
 
+
+
+
+
+    public  void submitPaymentData(){
+        PaymentModel paymentModel = new PaymentModel(cardno.getText().toString(),expdate.getText().toString(),cvv.getText().toString(),postalcode.getText().toString(),countrycode.getText().toString(),mobileno.getText().toString());
+        Call<JSONObject> jsonObjectCall = new Apiclient().getRetrofit().create(Paymentinfonetworkapi.class).insertPaymentInfo(paymentModel);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                Toast.makeText(getApplicationContext(),"Your Payment has been done Sucessfully",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Payment.this,ThankYou.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

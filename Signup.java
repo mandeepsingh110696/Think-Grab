@@ -25,9 +25,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -40,7 +42,7 @@ public class Signup extends AppCompatActivity {
     Button bt1;
     EditText email,name,pass,confpass;
     ProgressBar progressBar;
-    TextView already_signupp;
+    TextView already_signupp,view;
 
 	//FirebaseFirestore instance 
     FirebaseFirestore firebaseFirestoredb;
@@ -58,11 +60,13 @@ public class Signup extends AppCompatActivity {
         confpass=findViewById(R.id.conf_pass_signup);
         progressBar=findViewById(R.id.progressBar);
         already_signupp= findViewById(R.id.already_signup);
+        view=findViewById(R.id.viewdata);
+
 
         firebaseFirestoredb=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
 
-
+          fetchSignupData();
 
          if(firebaseAuth.getCurrentUser() !=null)
          {
@@ -140,6 +144,12 @@ public class Signup extends AppCompatActivity {
                  startActivity(in);
              }
          });
+         view.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+             }
+         });
 
     }
 //    public  void sendSignupData(final String email, String name, final String pass, String conf_pass){
@@ -189,22 +199,59 @@ public class Signup extends AppCompatActivity {
 
 
     public  void submitSignupData(){
-         SignupModel signupModel = new SignupModel(email.getText().toString(),name.getText().toString(),pass.getText().toString(),confpass.getText().toString());
+        SignupModel signupModel = new SignupModel(email.getText().toString(),name.getText().toString(),pass.getText().toString(),confpass.getText().toString());
         Call<JSONObject> jsonObjectCall = new  Apiclient().getRetrofit().create(Signupnetworkapi.class).insertSignupData(signupModel);
         jsonObjectCall.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
 
                 progressBar.setVisibility(View.GONE);
-                 Toast.makeText(getApplicationContext(), "You have been signup successfully", Toast.LENGTH_SHORT).show();
-                 Intent in = new Intent(Signup.this,Navigation.class);
-                 startActivity(in);
+                Toast.makeText(getApplicationContext(), "You have been signup successfully", Toast.LENGTH_SHORT).show();
+                Intent in = new Intent(Signup.this,Navigation.class);
+                startActivity(in);
             }
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                 Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
+
+
+    public  void fetchSignupData(){
+        Call<List<SignupModel>> Call = new  Apiclient().getRetrofit().create(Signupnetworkapi.class).fetchSignupData();
+        Call.enqueue(new Callback<List<SignupModel>>() {
+            @Override
+            public void onResponse(Call<List<SignupModel>> call, Response<List<SignupModel>> response) {
+                progressBar.setVisibility(View.GONE);
+                List<SignupModel> modelList =response.body();
+                for(SignupModel signupModel:modelList)
+                {
+                    String data="";
+                    data+="email:"+signupModel.getEmail()+"\n";
+                    data+="name:"+signupModel.getName()+"\n";
+                    data+="pass:"+signupModel.getPass()+"\n";
+                    data+="conf_pass:"+signupModel.getConf_pass()+"\n\n";
+
+                    view.append(data);
+
+                }
+                //Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<SignupModel>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

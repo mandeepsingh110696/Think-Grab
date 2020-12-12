@@ -17,10 +17,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.amaranathyatra.thinkgrab.network.Apiclient;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Deliveryaddressnetorkapi;
+import com.example.amaranathyatra.thinkgrab.network.networkapi.Signupnetworkapi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Checkout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -98,6 +107,7 @@ public class Checkout extends AppCompatActivity implements NavigationView.OnNavi
                     mobile.setError("city name is required");
                     return;
                 }
+                submitDeliveryAddressData();
                 sendDeliveryAddressData(cityy,localityy,aptnoo,postalcodee,provincee,landmarkk,namee,mobilee,altermobile);
                 Intent intent = new Intent(Checkout.this,Payment.class);
                 startActivity(intent);
@@ -127,6 +137,41 @@ public class Checkout extends AppCompatActivity implements NavigationView.OnNavi
 
     }
 
+
+    public  void submitDeliveryAddressData(){
+        city=findViewById(R.id.city);
+        locality=findViewById(R.id.locality);
+        aptno=findViewById(R.id.aptno);
+        postalcode=findViewById(R.id.postalcode);
+        province=findViewById(R.id.province);
+        landmark=findViewById(R.id.landmark);
+        name=findViewById(R.id.name);
+        mobile=findViewById(R.id.mobile);
+        alter_mobile=findViewById(R.id.alter_mobile);
+      DeliveryAddressModel deliveryAddressModel= new DeliveryAddressModel(city.getText().toString(),locality.getText().toString(),aptno.getText().toString(),postalcode.getText().toString(),province.getText().toString(),landmark.getText().toString(),name.getText().toString(),mobile.getText().toString(),alter_mobile.getText().toString());
+        Call<JSONObject> jsonObjectCall = new Apiclient().getRetrofit().create(Deliveryaddressnetorkapi.class).insertDeliveryAddress(deliveryAddressModel);
+        jsonObjectCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                Toast.makeText(getApplicationContext(),"Your Delivery address has been saved Sucessfully",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Checkout.this,Payment.class);
+                startActivity(intent);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "You have encountered an error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+    }
 
     @Override
     public void onBackPressed() {
