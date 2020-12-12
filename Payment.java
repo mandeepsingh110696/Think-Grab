@@ -211,6 +211,8 @@ public class Payment extends AppCompatActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_profile) {
+            Intent intent = new Intent(getApplicationContext(),ProfileData.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_tools) {
 
